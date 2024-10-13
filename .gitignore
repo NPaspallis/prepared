@@ -44,3 +44,4 @@ app.*.map.json
 
 # skip the production secrets from entering the public repository
 /assets/secrets/secrets.json
+pubspec.lock
