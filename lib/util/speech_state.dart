@@ -1,0 +1,6 @@
+enum SpeechState {
+
+  playing,
+  stopped
+
+}
