@@ -1,4 +1,4 @@
-<img src="application-interface-development.png" alt="Typical index page of a case study" style="width:150px;" align="left"/>
+<img src="application-interface-development.png" alt="From https://publicdomainvectors.org/" style="width:150px;" align="left"/>
 
 # Guidelines for developing educational content for the _PREPARED_ framework
 
@@ -61,7 +61,9 @@ The user can choose to return to the main screen at any time, and come back late
 The following enumerate some of the basic _page types_ supported by the app, and defines the data required to create each one of them.
 The available types are:
 - **Formatted content**: This is a typical page with static content such as text and pictures, formatted similarly to how web pages are formatted
-- Video: 
-- Dialogue page
-- Poll page
+- **Video**: 
+- **Discussion**:
+- **Poll**:
+- **Exam**:
+- **Badge**:
 
