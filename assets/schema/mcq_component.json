@@ -1,0 +1,35 @@
+{
+  "$id": "http://prepared-project.eu/mcq_component",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "type": {
+      "enum": [
+        "mcq"
+      ]
+    },
+    "options": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {"$ref": "http://prepared-project.eu/mcq_option"}
+        ]
+      }
+    },
+    "prompt": {
+      "type": "string"
+    },
+    "content": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "type",
+    "options",
+    "prompt",
+    "content"
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "$id": "http://prepared-project.eu/discussion_component",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "type": {
+      "enum": [
+        "discussion"
+      ]
+    },
+    "participants": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {"$ref": "http://prepared-project.eu/participant"}
+        ]
+      }
+    },
+    "messages": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {"$ref": "http://prepared-project.eu/discussion_message"}
+        ]
+      }
+    }
+  },
+  "required": [
+    "id",
+    "type",
+    "participants",
+    "messages"
+  ]
+}

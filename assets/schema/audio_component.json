@@ -1,0 +1,27 @@
+{
+  "$id": "http://prepared-project.eu/audio_component",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "audioURL": {
+      "type": "string"
+    },
+
+    "type": {
+      "enum": [
+        "audio"
+      ]
+    },
+    "content": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "audioURL",
+    "type",
+    "content"
+  ]
+}

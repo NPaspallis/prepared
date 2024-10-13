@@ -1,0 +1,23 @@
+{
+  "$id": "http://prepared-project.eu/metadata_schema",
+  "type": "object",
+  "properties": {
+    "createdOn": {
+      "type": "integer"
+    },
+    "lastEdited": {
+      "type": "integer"
+    },
+    "authors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "createdOn",
+    "lastEdited",
+    "authors"
+  ]
+}

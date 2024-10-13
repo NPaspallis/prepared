@@ -1,0 +1,30 @@
+{
+  "$id": "http://prepared-project.eu/chat_component",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "type": {
+      "enum": [
+        "chat"
+      ]
+    },
+    "content": {
+      "type": "string"
+    },
+    "messages": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {"$ref": "http://prepared-project.eu/chat_message"}
+        ]
+      }
+    }
+  },
+  "required": [
+    "id",
+    "type",
+    "content"
+  ]
+}

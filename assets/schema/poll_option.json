@@ -1,0 +1,23 @@
+{
+  "$id": "http://prepared-project.eu/poll_option",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "number"
+    },
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "feedback": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "title",
+    "description"
+  ]
+}

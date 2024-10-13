@@ -1,0 +1,34 @@
+{
+  "$id": "http://prepared-project.eu/badge_component",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "type": {
+      "enum": [
+        "badge"
+      ]
+    },
+    "content": {
+      "type": "string"
+    },
+    "badgeName": {
+      "type": "string"
+    },
+    "badgeClassId": {
+      "type": "string"
+    },
+    "issuerId": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "type",
+    "content",
+    "badgeName",
+    "badgeClassId",
+    "issuerId"
+  ]
+}

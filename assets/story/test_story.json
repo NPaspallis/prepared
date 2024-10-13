@@ -1,0 +1,88 @@
+{
+  "title": "Test Story",
+  "shortTitle": "Test",
+  "bannerImageURL": "assets/images/logo_horizontal.jpg",
+  "id": "test_story",
+  "metadata": {
+    "createdOn": 1686143311,
+    "lastEdited": 1686143311,
+    "authors": [
+      "Nicos Kasenides",
+      "Nearchos Paspallis",
+      "Multiple",
+      "Others",
+      "To Check that text Wraps"
+    ]
+  },
+  "startingComponentID": "test-index",
+  "components": [
+
+    {
+      "id": "test-index",
+      "type": "html",
+      "content": "<b>Welcome</b> This is the start..."
+    },
+
+    {
+      "id": "test-branch",
+      "type": "branch",
+      "content": "Would you like to receive a badge?",
+      "choices": [
+        {
+          "linkedComponentID": "test-exam",
+          "label": "Yes"
+        },
+        {
+          "linkedComponentID": "test-conclusions",
+          "label": "No"
+        }
+      ]
+    },
+
+    {
+      "id": "test-exam",
+      "type": "exam",
+      "content": "This is a simple soft. eng. exam.",
+      "questions": [
+        {
+          "question": "Who uses a software product after it has been fully developed?",
+          "shuffledAnswers": true,
+          "answers": ["Programmer", "Tester", "End user", "Project manager", "Team leader"],
+          "correctIndex": 2
+        },
+        {
+          "question": "Which of the following is used to determine if a project is worthwhile?",
+          "answers": ["Feasibility", "Market analysis", "Requirements elicitation"],
+          "correctIndex": 0
+        },
+        {
+          "question": "What does 'implementation' mean in software development?",
+          "shuffledAnswers": true,
+          "answers": ["Obtaining the requirements from the user",
+            "Converting the design into code",
+            "Testing the code with code",
+            "Testing the code with users"],
+          "correctIndex": 1
+        }
+      ],
+      "minNumOfCorrectToPass": 3
+    },
+
+    {
+      "id": "test-badge",
+      "type": "badge",
+      "content": "<b>Badge</b> todo...",
+      "badgeName": "Ethics in 45 minutes",
+      "badgeImageUrl": "https://api.badgr.io/public/badges/LbIzGoPgTjGW_l5w0AyB-A/image",
+      "badgeClassId": "LbIzGoPgTjGW_l5w0AyB-A",
+      "issuerId": "3DxsIcj5R-e-PPjzwbbKeQ"
+    },
+
+    {
+      "id": "test-conclusions",
+      "type": "html",
+      "content": "<b>Conclusions</b> This is the end..."
+    }
+  ],
+  "thumbnailURL": "assets/images/logo_horizontal.jpg"
+}

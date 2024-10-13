@@ -1,0 +1,28 @@
+{
+  "$id": "http://prepared-project.eu/mcq_option",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "number"
+    },
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "feedback": {
+      "type": "string"
+    },
+    "correct": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "id",
+    "title",
+    "description",
+    "feedback",
+    "correct"
+  ]
+}

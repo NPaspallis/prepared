@@ -1,0 +1,22 @@
+{
+  "$id": "http://prepared-project.eu/html_component",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "type": {
+      "enum": [
+        "html"
+      ]
+    },
+    "content": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "type",
+    "content"
+  ]
+}

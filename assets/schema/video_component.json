@@ -1,0 +1,37 @@
+{
+  "$id": "http://prepared-project.eu/video_component",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "videoURL": {
+      "type": "string"
+    },
+
+    "subtitlesURL": {
+      "type": "string"
+    },
+
+    "type": {
+      "enum": [
+        "video"
+      ]
+    },
+    "content": {
+      "type": "string"
+    },
+    "startTime": {
+      "type": "number"
+    },
+    "endTime": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "id",
+    "type",
+    "content",
+    "videoURL"
+  ]
+}

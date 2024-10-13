@@ -1,0 +1,30 @@
+{
+  "$id": "http://prepared-project.eu/branch_component",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "type": {
+      "enum": [
+        "branch"
+      ]
+    },
+    "content": {
+      "type": "string"
+    },
+    "choices": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {"$ref": "http://prepared-project.eu/component_choice"}
+        ]
+      }
+    }
+  },
+  "required": [
+    "id",
+    "type",
+    "choices"
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "$id": "http://prepared-project.eu/bucket_component",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "type": {
+      "enum": [
+        "bucket"
+      ]
+    },
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "buckets": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {"$ref": "http://prepared-project.eu/bucket"}
+        ]
+      }
+    },
+    "bucket_items": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {"$ref": "http://prepared-project.eu/bucket_item"}
+        ]
+      }
+    }
+  },
+  "required": [
+    "id",
+    "type",
+    "title",
+    "description",
+    "buckets",
+    "bucket_items"
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "$id": "http://prepared-project.eu/poll_component",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "type": {
+      "enum": [
+        "poll"
+      ]
+    },
+    "options": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {"$ref": "http://prepared-project.eu/poll_option"}
+        ]
+      }
+    },
+    "prompt": {
+      "type": "string"
+    },
+    "content": {
+      "type": "string"
+    },
+    "feedback": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "type",
+    "options",
+    "prompt",
+    "content",
+    "feedback"
+  ]
+}

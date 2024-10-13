@@ -1,0 +1,49 @@
+{
+  "$id": "http://prepared-project.eu/story_schema",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "bannerImageURL": {
+      "type": "string"
+    },
+    "metadata": {
+        "$ref": "http://prepared-project.eu/metadata_schema"
+    },
+    "startingComponentID": {
+      "type": "string"
+    },
+    "components": {
+      "type": "array",
+      "items": {
+        "anyOf": [
+          {"$ref": "http://prepared-project.eu/chat_component"},
+          {"$ref": "http://prepared-project.eu/html_component"},
+          {"$ref": "http://prepared-project.eu/discussion_component"},
+          {"$ref": "http://prepared-project.eu/poll_component"},
+          {"$ref": "http://prepared-project.eu/multipoll_component"},
+          {"$ref": "http://prepared-project.eu/mcq_component"},
+          {"$ref": "http://prepared-project.eu/multimcq_component"},
+          {"$ref": "http://prepared-project.eu/video_component"},
+          {"$ref": "http://prepared-project.eu/branch_component"},
+          {"$ref": "http://prepared-project.eu/bucket_component"},
+          {"$ref": "http://prepared-project.eu/audio_component"},
+          {"$ref": "http://prepared-project.eu/badge_component"},
+          {"$ref": "http://prepared-project.eu/exam_component"}
+        ]
+      }
+    }
+  },
+  "required": [
+    "id",
+    "title",
+    "bannerImageURL",
+    "startingComponentID",
+    "components",
+    "metadata"
+  ]
+}

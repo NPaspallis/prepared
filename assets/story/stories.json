@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "stories": [
+    {
+      "file": "assets/story/test_story.json",
+      "published": true
+    }
+  ]
+}

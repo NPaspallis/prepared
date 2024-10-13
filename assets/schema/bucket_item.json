@@ -1,0 +1,20 @@
+{
+  "$id": "http://prepared-project.eu/bucket_item",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "correctBucketID": {
+      "type": "integer"
+    },
+    "label": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "correctBucketID",
+    "label"
+  ]
+}

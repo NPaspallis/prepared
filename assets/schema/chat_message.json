@@ -1,0 +1,12 @@
+{
+  "$id": "http://prepared-project.eu/chat_message",
+  "type": "object",
+  "properties": {
+    "senderName": {"type": "string"},
+    "text": {"type": "string"},
+    "timestamp": {"type": "number"},
+    "upvotes": {"type": "number"},
+    "downvotes": {"type": "number"}
+  },
+  "required": ["senderIndex", "text"]
+}

@@ -1,0 +1,42 @@
+{
+  "$id": "http://prepared-project.eu/multipoll_component",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "type": {
+      "enum": [
+        "multipoll"
+      ]
+    },
+    "options": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {"$ref": "http://prepared-project.eu/poll_option"}
+        ]
+      }
+    },
+    "prompt": {
+      "type": "string"
+    },
+    "content": {
+      "type": "string"
+    },
+    "feedback": {
+      "type": "string"
+    },
+    "maxSelections": {
+      "type": "integer"
+    }
+  },
+  "required": [
+    "id",
+    "type",
+    "options",
+    "prompt",
+    "content",
+    "feedback"
+  ]
+}

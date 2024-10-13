@@ -1,0 +1,16 @@
+{
+  "$id": "http://prepared-project.eu/component_choice",
+  "type": "object",
+  "properties": {
+    "linkedComponentID": {
+      "type": "string"
+    },
+    "label": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "linkedComponentID",
+    "label"
+  ]
+}

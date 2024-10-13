@@ -1,0 +1,31 @@
+{
+  "$id": "http://prepared-project.eu/exam_component",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "type": {
+      "enum": [
+        "exam"
+      ]
+    },
+    "questions": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {"$ref": "http://prepared-project.eu/exam_question"}
+        ]
+      }
+    },
+    "minNumOfCorrectToPass": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "id",
+    "type",
+    "questions",
+    "minNumOfCorrectToPass"
+  ]
+}
