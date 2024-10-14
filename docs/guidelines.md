@@ -60,10 +60,8 @@ The user can choose to return to the main screen at any time, and come back late
 
 The following enumerate some of the basic _page types_ supported by the app, and defines the data required to create each one of them.
 The available types are:
-- **Formatted content**: This is a typical page with static content such as text and pictures, formatted similarly to how web pages are formatted
-- **Video**: 
-- **Discussion**:
-- **Poll**:
-- **Exam**:
-- **Badge**:
-
+- **[Html content](component-html.md)**: This is a typical page with static content such as text and pictures, formatted similarly to how web pages are formatted using HTML.
+- **Discussion**: This type simulates a chat conversation among two persons in a format similar to how this is viewed in popular chat apps.
+- **Branch**: This enables branching of the flow inside a learning module, by allowing to _jump_ to a page further down in the sequence.
+- **Poll**: Allows the learners to _vote_ for an option (or multiple options) by providing a number of options so that the user can pick one or more of them.
+- **Video**: This page provides a means for embedding a video in the training, supporting both a portrait and a full-screen (landscape) mode.
