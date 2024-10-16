@@ -1,0 +1,84 @@
+{
+  "title": "Example module for demonstrating the PREPARED app page types",
+  "shortTitle": "Example",
+  "bannerImageURL": "assets/images/prepared-app-development.png",
+  "id": "example_story",
+  "metadata": {
+    "createdOn": 1729055221,
+    "lastEdited": 1729055221,
+    "authors": [
+      "Nearchos Paspallis"
+    ]
+  },
+  "startingComponentID": "example-index",
+  "components": [
+
+    {
+      "id": "example-index",
+      "type": "html",
+      "content": "<h1>Welcome</h1><h2>This is a sample HTML page defined inline.</h2><b>This could also be a URL to a web-based resource.</b"
+    },
+
+    {
+      "id": "example-branch",
+      "type": "branch",
+      "content": "Would you like to receive a badge?",
+      "choices": [
+        {
+          "linkedComponentID": "example-exam",
+          "label": "Yes"
+        },
+        {
+          "linkedComponentID": "example-conclusions",
+          "label": "No"
+        }
+      ]
+    },
+
+    {
+      "id": "example-exam",
+      "type": "exam",
+      "content": "This is a simple soft. eng. exam.",
+      "questions": [
+        {
+          "question": "Who uses a software product after it has been fully developed?",
+          "shuffledAnswers": true,
+          "answers": ["Programmer", "Tester", "End user", "Project manager", "Team leader"],
+          "correctIndex": 2
+        },
+        {
+          "question": "Which of the following is used to determine if a project is worthwhile?",
+          "answers": ["Feasibility", "Market analysis", "Requirements elicitation"],
+          "correctIndex": 0
+        },
+        {
+          "question": "What does 'implementation' mean in software development?",
+          "shuffledAnswers": true,
+          "answers": ["Obtaining the requirements from the user",
+            "Converting the design into code",
+            "Testing the code with code",
+            "Testing the code with users"],
+          "correctIndex": 1
+        }
+      ],
+      "minNumOfCorrectToPass": 3
+    },
+
+    {
+      "id": "example-badge",
+      "type": "badge",
+      "content": "<b>Badge</b> todo...",
+      "badgeName": "An example badge to demonstrate the PREPARED App functionality",
+      "badgeImageUrl": "https://api.badgr.io/public/badges/g1aHwt3tTE2Vhq8lKVdxcQ/image",
+      "badgeClassId": "g1aHwt3tTE2Vhq8lKVdxcQ",
+      "issuerId": "vk2EB2SQTeiYqRlvko-NYQ"
+    },
+
+    {
+      "id": "test-conclusions",
+      "type": "html",
+      "content": "<h3>Conclusions</h3><h1>This is the end... Thank you for trying the PREPARED App example module</h1>"
+    }
+  ],
+  "thumbnailURL": "assets/images/logo_horizontal.jpg"
+}

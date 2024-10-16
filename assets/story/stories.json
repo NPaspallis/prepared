@@ -2,8 +2,12 @@
   "schemaVersion": 1,
   "stories": [
     {
-      "file": "assets/story/test_story.json",
+      "file": "assets/story/example.json",
       "published": true
+    },
+    {
+      "file": "assets/story/test_story.json",
+      "published": false
     }
   ]
 }
