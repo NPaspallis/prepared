@@ -1,8 +1,9 @@
-![PREPARED App Development](assets/images/prepared-app-development.png)
+<img src="assets/images/prepared-app-development.png" alt="PREPARED App Development" style="width:200px;"/>
+<br/>
 
-# prepared
+# PREPARED App Framework
 
-A framework for a mobile educational app with reusable and extensible component types
+A framework for developing mobile educational apps with reusable and extensible component types
 
-* For developers' guidelines, see [docs/developers.md](docs/developers.md).
+* For app developers' guidelines, see [docs/developers.md](docs/developers.md).
 * For instructional designers' guidelines, see [docs/guidelines.md](docs/guidelines.md)
