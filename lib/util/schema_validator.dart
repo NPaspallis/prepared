@@ -54,6 +54,7 @@ class SchemaValidator {
       "badge_component",
       "exam_component",
       "exam_question",
+      "exam_answer",
     ];
 
     //Objects to be stored after loading the schemas:

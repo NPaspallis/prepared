@@ -1,0 +1,15 @@
+{
+  "$id": "http://prepared-project.eu/exam_answer",
+  "type": "object",
+  "properties": {
+    "text": {
+      "type": "string"
+    },
+    "correct": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "text"
+  ]
+}

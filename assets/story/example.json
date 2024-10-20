@@ -22,7 +22,7 @@
     {
       "id": "example-branch",
       "type": "branch",
-      "content": "Would you like to receive a badge?",
+      "content": "<h1>Would you like to receive a badge?</h1>",
       "choices": [
         {
           "linkedComponentID": "example-exam",
@@ -41,27 +41,48 @@
       "content": "This is a simple soft. eng. exam.",
       "questions": [
         {
-          "question": "Who uses a software product after it has been fully developed?",
+          "text": "Who uses a software product after it has been fully developed?",
           "shuffledAnswers": true,
-          "answers": ["Programmer", "Tester", "End user", "Project manager", "Team leader"],
-          "correctIndex": 2
+          "answers": [
+            { "text": "Programmer"},
+            { "text": "Tester"},
+            { "text": "End user", "correct": true },
+            { "text": "Project manager"},
+            { "text": "Team leader"}
+          ]
         },
         {
-          "question": "Which of the following is used to determine if a project is worthwhile?",
-          "answers": ["Feasibility", "Market analysis", "Requirements elicitation"],
-          "correctIndex": 0
+          "text": "Which of the following is used to determine if a project is worthwhile?",
+          "answers": [
+            { "text": "Feasibility", "correct":  true},
+            { "text": "Market analysis"},
+            { "text": "Requirements elicitation"}
+          ]
         },
         {
-          "question": "What does 'implementation' mean in software development?",
+          "text": "What does 'implementation' mean in software development?",
           "shuffledAnswers": true,
-          "answers": ["Obtaining the requirements from the user",
-            "Converting the design into code",
-            "Testing the code with code",
-            "Testing the code with users"],
-          "correctIndex": 1
+          "answers": [
+            { "text": "Obtaining the requirements from the user" },
+            { "text": "Converting the design into code", "correct": true },
+            { "text": "Testing the code with code" },
+            { "text": "Testing the code with users" }
+          ]
+        },
+        {
+          "text": "Which three of the following are well-known 'software development lifecycle models'?",
+          "shuffledAnswers": true,
+          "answers": [
+            { "text": "Waterfall", "correct": true },
+            { "text": "Agile", "correct": true },
+            { "text": "Extreme Programming", "correct": true },
+            { "text": "Assembly line" },
+            { "text": "Object oriented" },
+            { "text": "Relational" }
+          ]
         }
       ],
-      "minNumOfCorrectToPass": 3
+      "minPercentageToPass": 80.0
     },
 
     {
@@ -75,7 +96,7 @@
     },
 
     {
-      "id": "test-conclusions",
+      "id": "example-conclusions",
       "type": "html",
       "content": "<h3>Conclusions</h3><h1>This is the end... Thank you for trying the PREPARED App example module</h1>"
     }

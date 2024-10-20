@@ -59,6 +59,9 @@ class FileUtils {
       if(kReleaseMode) { // if release mode, load from cloud URL
         storiesFileText = await FileUtils.loadTextFile(cloudStoriesUrl); // load from cloud
       } else { // assert kDebugMode, load from assets
+        if (kDebugMode) {
+          print('Loading stories file locally from assets');
+        }
         storiesFileText = await FileUtils.loadTextFile(assetStoriesUrl); // load from local assets - uncomment to allow locally loaded stories, e.g., in debug mode
       }
       var jsonObject = jsonDecode(storiesFileText);
@@ -98,9 +101,8 @@ class FileUtils {
             if (checkStoryStatus == StoryCheckStatus.ok) {
               stories.add(story);
             } else {
-              throw Exception("Error in story '${story
-                  .title}'. Story component references violate runtime checks. \n ${checkStoryStatus
-                  .errorMessage}");
+              throw Exception("Error in story '${story.id}' with title '${story.title}'. "
+                  "Story component references violate runtime checks. \n ${checkStoryStatus.errorMessage}");
             }
           }
           else {

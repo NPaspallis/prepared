@@ -1,6 +1,7 @@
 import 'package:app/schema/component/component.dart';
 import 'package:app/schema/component/component_type.dart';
-import 'package:app/schema/exam_question.dart';
+import 'package:app/schema/exam/exam_question.dart';
+import 'package:app/schema/exam/exam_answer.dart';
 
 class ExamComponent implements StoryComponent {
 
@@ -8,42 +9,39 @@ class ExamComponent implements StoryComponent {
   final ComponentType type = ComponentType.exam;
   final String content;
   List<ExamQuestion> questions;
-  final int minNumOfCorrectToPass;
+  final double minPercentageToPass;
 
-  ExamComponent(this.id, this.content, this.questions,
-      this.minNumOfCorrectToPass);
+  ExamComponent(this.id, this.content, this.questions, this.minPercentageToPass);
 
   static ExamComponent fromJson(dynamic jsonObject) {
     List<ExamQuestion> questions = [];
     for (int i = 0; i < jsonObject["questions"].length; i++) {
-      List<String> answers = [];
+      List<ExamAnswer> examAnswers = [];
       for(int j = 0; j < jsonObject["questions"][i]["answers"].length; j++) {
-        answers.add(jsonObject["questions"][i]["answers"][j] as String);
+        examAnswers.add(ExamAnswer(
+            jsonObject["questions"][i]["answers"][j]["text"] as String,
+            (jsonObject["questions"][i]["answers"][j]["correct"] ?? false) as bool // by default false
+        ));
       }
-      ExamQuestion testQuestion = ExamQuestion.from(
-          question: jsonObject["questions"][i]["question"],
-          shuffledAnswers: (jsonObject["questions"][i]["shuffledAnswers"] ?? false) as bool, // if not defined, then false
-          answers: answers,
-          correctIndex: jsonObject["questions"][i]["correctIndex"] as int
+      ExamQuestion examQuestion = ExamQuestion(
+          jsonObject["questions"][i]["text"],
+          (jsonObject["questions"][i]["shuffledAnswers"] ?? false) as bool, // if not defined, then false
+          examAnswers
       );
-      questions.add(testQuestion);
+      questions.add(examQuestion);
     }
 
     return ExamComponent(
         jsonObject["id"],
         jsonObject["content"],
         questions,
-        jsonObject["minNumOfCorrectToPass"]
+        jsonObject["minPercentageToPass"]
     );
   }
 
   @override
-  String getID() {
-    return id;
-  }
+  String getID() => id;
 
   @override
-  ComponentType getType() {
-    return type;
-  }
+  ComponentType getType()=> type;
 }

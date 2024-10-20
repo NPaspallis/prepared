@@ -7,7 +7,7 @@ class ComponentChoice {
 
   @override
   String toString() {
-    return 'ComponentChoice{linkedComponentID: $linkedComponentID, label: $label';
+    return 'ComponentChoice{linkedComponentID: $linkedComponentID, label: $label}';
   }
 
 }

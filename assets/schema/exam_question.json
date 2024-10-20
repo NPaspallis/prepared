@@ -2,25 +2,23 @@
   "$id": "http://prepared-project.eu/exam_question",
   "type": "object",
   "properties": {
-    "question": {
+    "text": {
       "type": "string"
-    },
-    "shuffledAnswers": {
-      "type": "boolean"
     },
     "answers": {
       "type": "array",
       "items": {
-        "type": "string"
+        "oneOf": [
+          {"$ref": "http://prepared-project.eu/exam_answer"}
+        ]
       }
     },
-    "correctIndex": {
-      "type": "number"
+    "shuffledAnswers": {
+      "type": "boolean"
     }
   },
   "required": [
-    "question",
-    "answers",
-    "correctIndex"
+    "text",
+    "answers"
   ]
 }
