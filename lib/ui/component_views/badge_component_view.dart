@@ -91,9 +91,6 @@ class _BadgeComponentViewState extends State<BadgeComponentView> {
     String badgeEntryID = PreferenceUtils.constructBadgeClassDeviceID(widget.component.badgeClassId, deviceID);
     var documentSnapshot = await FirebaseFirestore.instance.collection(firebaseCollectionBadges).doc(badgeEntryID).get();
 
-    // always completed - no requirements to complete a badge page
-    Provider.of<StoryProgress>(context, listen: false).setCompleted(widget.storyId, widget.component.getID(), true);
-
     if (documentSnapshot.exists) {
       var badgeEntryData = documentSnapshot.data()!;
       debugPrint('documentSnapshot: $badgeEntryData');
@@ -103,6 +100,9 @@ class _BadgeComponentViewState extends State<BadgeComponentView> {
         _date = badgeEntryData['date'];
         _openBadgeId = badgeEntryData['badgeId'];
         _claimStatus = ClaimStatus.issued;
+
+        // completed - once badge is created
+        Provider.of<StoryProgress>(context, listen: false).setCompleted(widget.storyId, widget.component.getID(), true);
       });
     }
     else {
@@ -122,6 +122,9 @@ class _BadgeComponentViewState extends State<BadgeComponentView> {
           debugPrint('Entry created on Firebase: $badgeEntry');
           setState(() {
             _claimStatus = ClaimStatus.issued;
+
+            // completed - once badge is created
+            Provider.of<StoryProgress>(context, listen: false).setCompleted(widget.storyId, widget.component.getID(), true);
           });
         })
         .catchError((error) {
