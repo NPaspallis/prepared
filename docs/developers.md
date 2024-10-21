@@ -54,7 +54,6 @@ Make sure the stories do not include unsupported characters, like '’'.
 
 Clean the project
 * Make sure you updated the version number in ``pubspec.yaml``
-* Make sure you have pointed the main file to the cloud: ``FileUtils.loadTextFile(cloudStoriesUrl)`` in file ``file_utils.dart``.
 * ``flutter clean``
 * Do your testing
   * Make sure the case studies work ok
