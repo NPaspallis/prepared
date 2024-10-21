@@ -13,6 +13,7 @@ class LabeledRadio extends StatelessWidget {
     required this.correct,
     required this.visibleResult,
     required this.enabled,
+    required this.emphasized,
   });
 
   final String label;
@@ -23,6 +24,7 @@ class LabeledRadio extends StatelessWidget {
   final bool correct;
   final bool visibleResult;
   final bool enabled;
+  final bool emphasized;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +34,8 @@ class LabeledRadio extends StatelessWidget {
           onChanged(value);
         }
       },
-      child: Padding(
+      child: Container(
+        color: Colors.red.withOpacity(emphasized ? 0.03 : 0.0),
         padding: padding,
         child: Row(
           children: <Widget>[
@@ -50,7 +53,7 @@ class LabeledRadio extends StatelessWidget {
                 :
                   null,
             ),
-            Expanded(child: Text(label)),
+            Expanded(child: Text(label, style: Theme.of(context).textTheme.bodySmall)),
           ],
         ),
       ),

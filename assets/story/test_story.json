@@ -42,30 +42,61 @@
     {
       "id": "test-exam",
       "type": "exam",
-      "content": "This is a simple soft. eng. exam.",
+      "content": "This is a test for the TRUST Code in 45 minutes module.",
       "questions": [
         {
-          "question": "Who uses a software product after it has been fully developed?",
+          "text": "What are the six types of ethics dumping?",
           "shuffledAnswers": true,
-          "answers": ["Programmer", "Tester", "End user", "Project manager", "Team leader"],
-          "correctIndex": 2
+          "answers": [
+            { "text": "Triple standards, helicopter research, culturally appropriate conduct, lack of due diligence, dishonesty, patronizing conduct." },
+            { "text": "Double standards, heliocentric research, culturally inappropriate conduct, lack of due diligence, dishonesty, patriarchal conduct." },
+            { "text": "Double standards, helicopter research, culturally inappropriate conduct, lack of due diligence, dishonesty, patronizing conduct.", "correct": true },
+            { "text": "Lack of standards, helicopter research, culturally inappropriate conduct, complete due diligence, honesty, patronizing conduct." }
+          ]
         },
         {
-          "question": "Which of the following is used to determine if a project is worthwhile?",
-          "answers": ["Feasibility", "Market analysis", "Requirements elicitation"],
-          "correctIndex": 0
+          "text": "Ethics dumping is always intentional.",
+          "shuffledAnswers": true,
+          "answers": [
+            { "text": "True – researchers always know what they are doing." },
+            { "text": "False – ethics dumping practices can be unintentional. But this does not mean that it’s acceptable.", "correct": true }
+          ]
         },
         {
-          "question": "What does 'implementation' mean in software development?",
+          "text": "Select the 4 values that the TRUST code is based on from the list below.",
           "shuffledAnswers": true,
-          "answers": ["Obtaining the requirements from the user",
-            "Converting the design into code",
-            "Testing the code with code",
-            "Testing the code with users"],
-          "correctIndex": 1
+          "answers": [
+            { "text": "Honesty", "correct": true },
+            { "text": "Caution" },
+            { "text": "Respect", "correct": true },
+            { "text": "Care", "correct": true },
+            { "text": "Idealism" },
+            { "text": "Fairness", "correct": true },
+            { "text": "Compassion" }
+          ]
+        },
+        {
+          "text": "Where did the four values in the TRUST code come from?",
+          "shuffledAnswers": true,
+          "answers": [
+            { "text": "They were predetermined before the risks of exploitation in research were analysed." },
+            { "text": "They came from the philosophy of Aristotle." },
+            { "text": "They came from an analysis of 1000 ethics codes." },
+            { "text": "They were not predetermined, they emerged from an analysis of the risks of exploitation in research.", "correct": true }
+          ]
+        },
+        {
+          "text": "Which moral value does this article from the TRUST code align with? 'Feedback about the findings of the research must be given to local communities and research participants. It should be provided in a way that is meaningful, appropriate and readily comprehended.'",
+          "shuffledAnswers": true,
+          "answers": [
+            { "text": "Fairness", "correct": true },
+            { "text": "Respect" },
+            { "text": "Care" },
+            { "text": "Honesty" }
+          ]
         }
       ],
-      "minNumOfCorrectToPass": 3
+      "minPercentageToPass": 80.0
     },
 
     {

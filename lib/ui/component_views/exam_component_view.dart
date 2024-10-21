@@ -123,10 +123,8 @@ class _ExamComponentViewState extends State<ExamComponentView> {
                   children: [
                     const Icon(Icons.school, color: primaryColor, size: 32),
                     const SizedBox(width: 10),
-                    Expanded(child: Text(
-                        minPercentageToPass >= numOfExamQuestions ?
-                            'Answer correctly all $numOfExamQuestions questions to pass.' :
-                            'Answer correctly at least $minPercentageToPass% of $numOfExamQuestions questions to pass.',
+                    Expanded(
+                        child: Text('Achieve at least ${minPercentageToPass.toStringAsFixed(1)}% to pass.',
                         style: const TextStyle(fontSize: 14, fontStyle: FontStyle.italic)))
                   ],
                 ),
@@ -165,7 +163,7 @@ class _ExamComponentViewState extends State<ExamComponentView> {
             style: DefaultTextStyle.of(context).style,
             children: <TextSpan>[
               const TextSpan(text: 'Well done! ', style: TextStyle(fontWeight: FontWeight.bold)),
-              TextSpan(text: 'Your score is ${(_percentagePassed).toStringAsFixed(1)}%, which is over the required threshold of ${minPercentageToPass.toStringAsFixed(1)}%. '),
+              TextSpan(text: 'Your score is ${_percentagePassed.toStringAsFixed(1)}%, which meets or exceeds the required threshold of ${minPercentageToPass.toStringAsFixed(1)}%. '),
               const TextSpan(text: 'You can proceed to the next page.')
             ],
           ),
@@ -173,7 +171,7 @@ class _ExamComponentViewState extends State<ExamComponentView> {
       } else {
         return Column(
           children: [
-            Text('Your score is ${(_percentagePassed).toStringAsFixed(1)}%, which is below the required threshold of $minPercentageToPass%.', style: const TextStyle(color: Colors.red)),
+            Text('Your score is ${_percentagePassed.toStringAsFixed(1)}%, which is below the required threshold of $minPercentageToPass%.', style: const TextStyle(color: Colors.red)),
             const SizedBox(height: 10),
             createButtonWithIcon(
               'Try again',
@@ -197,11 +195,11 @@ class _ExamComponentViewState extends State<ExamComponentView> {
     });
   }
 
-  LabeledRadio getLabeledRadio(int questionIndex, ExamAnswer examAnswer, final bool visibleResult, final bool enabled) {
+  LabeledRadio getLabeledRadio(int questionIndex, ExamAnswer examAnswer, final bool visibleResult, final bool enabled, final bool emphasized) {
     final String groupValue = selectedAnswers[questionIndex]!.isEmpty ? '' : selectedAnswers[questionIndex]![0];
     return LabeledRadio(
       label: examAnswer.text,
-      padding: const EdgeInsets.symmetric(horizontal: 5.0),
+      padding: const EdgeInsets.fromLTRB(0.0, 5.0, 5.0, 5.0),
       value: examAnswer.text,
       groupValue: groupValue,
       onChanged: (String newValue) {
@@ -213,14 +211,15 @@ class _ExamComponentViewState extends State<ExamComponentView> {
       correct: examAnswer.correct,
       visibleResult: visibleResult,
       enabled: enabled,
+      emphasized: emphasized,
     );
   }
 
-  LabeledCheckbox getLabeledCheckbox(int questionIndex, ExamAnswer examAnswer, final bool visibleResult, final bool enabled) {
+  LabeledCheckbox getLabeledCheckbox(int questionIndex, ExamAnswer examAnswer, final bool visibleResult, final bool enabled, final bool emphasized) {
 
     return LabeledCheckbox(
       label: examAnswer.text,
-      padding: const EdgeInsets.symmetric(horizontal: 5.0),
+        padding: const EdgeInsets.fromLTRB(0.0, 5.0, 5.0, 5.0),
       checked: selectedAnswers[questionIndex]!.contains(examAnswer.text),
       onChanged: (bool checked) {
         setState(() {
@@ -234,6 +233,7 @@ class _ExamComponentViewState extends State<ExamComponentView> {
       correct: examAnswer.correct,
       visibleResult: visibleResult,
       enabled: enabled,
+      emphasized: emphasized
     );
   }
 
@@ -249,13 +249,12 @@ class _ExamComponentViewState extends State<ExamComponentView> {
     }
 
     List<Widget> labeledAnswers = [];
-    if(countCorrect == 1) { // use radio buttons
-      for(ExamAnswer examAnswer in selectedExamAnswers) {
-        labeledAnswers.add(Padding(padding: const EdgeInsets.symmetric(vertical: 10), child: getLabeledRadio(questionIndex, examAnswer, visibleResult, enabled)));
-      }
-    } else { // use checkboxes
-      for(ExamAnswer examAnswer in selectedExamAnswers) {
-        labeledAnswers.add(Padding(padding: const EdgeInsets.symmetric(vertical: 10), child: getLabeledCheckbox(questionIndex, examAnswer, visibleResult, enabled)));
+    for(int i = 0; i < selectedExamAnswers.length; i++) { // populate answers with radio or checkboxes as needed
+      ExamAnswer examAnswer = selectedExamAnswers[i];
+      if(countCorrect == 1) { // use radio buttons
+        labeledAnswers.add(getLabeledRadio(questionIndex, examAnswer, visibleResult, enabled, i.isOdd));
+      } else { // use checkboxes
+        labeledAnswers.add(getLabeledCheckbox(questionIndex, examAnswer, visibleResult, enabled, i.isOdd));
       }
     }
 
