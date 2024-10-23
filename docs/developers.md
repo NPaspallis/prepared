@@ -28,6 +28,10 @@ If you wish to build and release Android apps, consider the following:
     * `storeFile`
 * For using Firebase, you need to create a new account, generate the `google-services.json` file and store it under `/android/app`
 
+### Secret files for iOS Apps
+
+* For using Firebase, you need to create a new account, generate the `GoogleService-Info.plist` file and store it under `/ios/Runner`
+
 ## Build
 
 To build the project install the Flutter SDK, set up your environment, and run:
