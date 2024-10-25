@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 
 class Secrets {
 
-  static const pathToSecretsAssetFile = 'assets/secrets/secretsq.json'; // ensure this points to the correct file
+  static const pathToSecretsAssetFile = 'assets/secrets/secrets.json'; // ensure this points to the correct file
 
   static Future<void> loadFromAssets() async {
     try {
