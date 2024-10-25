@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 /// Provides a labeled widget with a radio button. Custom designed to support
 /// the exam component.
-class LabeledCheckbox extends StatelessWidget {
+class LabeledCheckbox extends StatefulWidget {
   const LabeledCheckbox({
     super.key,
     required this.label,
@@ -25,31 +25,40 @@ class LabeledCheckbox extends StatelessWidget {
   final bool emphasized;
 
   @override
+  State<LabeledCheckbox> createState() => _LabeledCheckboxState();
+}
+
+class _LabeledCheckboxState extends State<LabeledCheckbox> {
+
+  bool value = false;
+
+  @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => onChanged(checked),
+      onTap: () => flip(!value),
       child: Container(
-        color: Colors.red.withOpacity(emphasized ? 0.03 : 0.0),
-        padding: padding,
+        color: Colors.red.withOpacity(widget.emphasized ? 0.03 : 0.0),
+        padding: widget.padding,
         child: Row(
           children: <Widget>[
             Opacity(
-              opacity: visibleResult ? 1.0 : 0.0,
-              child: checked ? correct ? const Icon(Icons.check, color: Colors.green) : const Icon(Icons.close, color: Colors.red) : const Icon(Icons.question_mark, color: Colors.black26),
+              opacity: widget.visibleResult ? 1.0 : 0.0,
+              child: widget.checked ? widget.correct ? const Icon(Icons.check, color: Colors.green) : const Icon(Icons.close, color: Colors.red) : const Icon(Icons.question_mark, color: Colors.black26),
             ),
-            Checkbox(
-              value: checked,
-              onChanged: enabled ?
-                  (bool? newValue) {
-                    onChanged(newValue!);
-                  }
-                :
-                  null,
+            IgnorePointer(
+              child: Checkbox(value: value, onChanged: (_) {}),
             ),
-            Expanded(child: Text(label, style: Theme.of(context).textTheme.bodySmall)),
+            Expanded(child: Text(widget.label, style: Theme.of(context).textTheme.bodySmall)),
           ],
         ),
-      ),
+      )
     );
+  }
+
+  void flip(bool newValue) {
+    if(widget.enabled) {
+      value = !value;
+      widget.onChanged(newValue);
+    }
   }
 }

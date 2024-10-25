@@ -43,15 +43,12 @@ class LabeledRadio extends StatelessWidget {
               opacity: visibleResult && value == groupValue ? 1.0 : 0.0,
               child: correct ? const Icon(Icons.check, color: Colors.green) : const Icon(Icons.close, color: Colors.red),
             ),
-            Radio<String>(
-              groupValue: groupValue,
-              value: value,
-              onChanged: enabled ?
-                  (String? newValue) {
-                    onChanged(newValue!);
-                  }
-                :
-                  null,
+            IgnorePointer(
+              child: Radio<String>(
+                groupValue: groupValue,
+                value: value,
+                onChanged: enabled ? (_) {} : null,
+              ),
             ),
             Expanded(child: Text(label, style: Theme.of(context).textTheme.bodySmall)),
           ],

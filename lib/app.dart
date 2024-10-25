@@ -25,7 +25,7 @@ class _PreparedAppState extends State<PreparedApp> {
     super.initState();
     Firebase.initializeApp().then((value) {
       FirebaseFirestore.instance.settings = const Settings(persistenceEnabled: false); //Don't use offline data
-    },);
+    });
 
     //Generate a new device ID if it does not exist:
     DeviceUtils.generateInstallationID();

@@ -125,7 +125,7 @@ class _ExamComponentViewState extends State<ExamComponentView> {
                     const SizedBox(width: 10),
                     Expanded(
                         child: Text('Achieve at least ${minPercentageToPass.toStringAsFixed(1)}% to pass.',
-                        style: const TextStyle(fontSize: 14, fontStyle: FontStyle.italic)))
+                        style: Theme.of(context).textTheme.bodySmall))
                   ],
                 ),
                 const SizedBox(height: 20),
@@ -162,16 +162,17 @@ class _ExamComponentViewState extends State<ExamComponentView> {
             text: '',
             style: DefaultTextStyle.of(context).style,
             children: <TextSpan>[
-              const TextSpan(text: 'Well done! ', style: TextStyle(fontWeight: FontWeight.bold)),
-              TextSpan(text: 'Your score is ${_percentagePassed.toStringAsFixed(1)}%, which meets or exceeds the required threshold of ${minPercentageToPass.toStringAsFixed(1)}%. '),
-              const TextSpan(text: 'You can proceed to the next page.')
+              TextSpan(text: 'Well done! ', style: Theme.of(context).textTheme.bodySmall!.copyWith(fontWeight: FontWeight.bold)),
+              TextSpan(text: 'Your score is ${_percentagePassed.toStringAsFixed(1)}%, which meets or exceeds the required threshold of ${minPercentageToPass.toStringAsFixed(1)}%. ', style: Theme.of(context).textTheme.bodySmall),
+              TextSpan(text: 'You can proceed to the next page.', style: Theme.of(context).textTheme.bodySmall)
             ],
           ),
         );
       } else {
         return Column(
           children: [
-            Text('Your score is ${_percentagePassed.toStringAsFixed(1)}%, which is below the required threshold of $minPercentageToPass%.', style: const TextStyle(color: Colors.red)),
+            Text('Your score is ${_percentagePassed.toStringAsFixed(1)}%, which is below the required threshold of $minPercentageToPass%.',
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Colors.red)),
             const SizedBox(height: 10),
             createButtonWithIcon(
               'Try again',

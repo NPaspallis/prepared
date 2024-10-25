@@ -11,6 +11,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../model/story_progress.dart';
 import '../../schema/component/badge_component.dart';
+import '../../secrets.dart';
 import '../../util/device_utils.dart';
 import '../../util/pref_utils.dart';
 import '../../util/ui_utils.dart';
@@ -75,9 +76,8 @@ class _BadgeComponentViewState extends State<BadgeComponentView> {
 
     // next, if not set yet, fetch latest values from Firebase
     if(_username.isEmpty || _password.isEmpty) {
-      var documentSnapshot = await FirebaseFirestore.instance.collection(firebaseSettings).doc(firebaseSettingsDocumentBadgeApi).get();
-      _username = documentSnapshot.data()!['email'];
-      _password = documentSnapshot.data()!['password'];
+      _username = Secrets.getSecret('badgr-username');
+      _password = Secrets.getSecret('badgr-password');
       // save in prefs for future use
       prefs.setString(keyPrefsUsername, _username);
       prefs.setString(keyPrefsPassword, _password);
