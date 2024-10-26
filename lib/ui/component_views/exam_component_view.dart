@@ -300,13 +300,21 @@ class _ExamComponentViewState extends State<ExamComponentView> {
       int numOfCorrectlySelectedAnswers = 0;
       for(int j = 0; j < numOfAnswers; j++) {
         ExamAnswer examAnswer = examQuestions[i].examAnswers[j];
-        bool selectedAnswer = selectedAnswers[i]!.contains(examAnswer.text);
+        bool selectedAnswer = selectedAnswers[i]!.contains(examAnswer.text); // selected by the user
+        // count correct answers to determine if radio buttons, or checkboxes
+        if(examAnswer.correct) {
+          numOfCorrectAnswers++;
+        }
         // increase counter for correctly selected answers only
-        if(examAnswer.correct) numOfCorrectAnswers++;
-        if(examAnswer.correct && selectedAnswer) numOfCorrectlySelectedAnswers++;
+        if((selectedAnswer && examAnswer.correct) || (!selectedAnswer && !examAnswer.correct)) {
+          numOfCorrectlySelectedAnswers++;
+        }
       }
-      double percentageCorrectAnswers = 100 * numOfCorrectlySelectedAnswers / numOfCorrectAnswers; // should be 0/1 for radio buttons and [0,1] for checkboxes
+      double percentageCorrectAnswers = numOfCorrectAnswers == 1 ? // should be 0/1 for radio buttons
+        (numOfCorrectlySelectedAnswers == numOfAnswers ? 100 : 0) :
+        (100 * numOfCorrectlySelectedAnswers / numOfAnswers); // should be [0,1] for checkboxes
       percentagePassed += percentageCorrectAnswers;
+      debugPrint('percentagePassed: $percentagePassed -- (percentageCorrectAnswers: $percentageCorrectAnswers, numOfCorrectlySelectedAnswers: $numOfCorrectlySelectedAnswers, numOfAnswers: $numOfAnswers, numOfCorrectAnswers: $numOfCorrectAnswers)'); // todo delete
     }
     percentagePassed /= numOfExamQuestions;
     final bool passed = percentagePassed >= minPercentageToPass;
