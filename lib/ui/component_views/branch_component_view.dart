@@ -28,11 +28,13 @@ class _BranchComponentViewState extends State<BranchComponentView> {
           onNavigationRequest: (NavigationRequest request) {
             if(request.url.startsWith("file://") || request.url.startsWith("https://storage.googleapis.com")) {
               return NavigationDecision.navigate;
-            } else {
+            } else if(request.url.startsWith('http')) {
               _launchURL(request.url);
               return NavigationDecision.prevent;
+            } else {
+              return NavigationDecision.navigate;
             }
-          },
+          }
         )
       );
   }
@@ -50,7 +52,7 @@ class _BranchComponentViewState extends State<BranchComponentView> {
 
     //Multiple linked components, show content and options:
     if (widget.component.choices.length > 1 && widget.component.content != null) {
-
+print('widget.component.content: ${widget.component.content}');
       if(widget.component.content!.toLowerCase().startsWith("html::")) {
         _webViewController.loadFlutterAsset(widget.component.content!.substring(6));
       }

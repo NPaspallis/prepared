@@ -29,9 +29,11 @@ class _HtmlComponentViewState extends State<HtmlComponentView> {
           onNavigationRequest: (NavigationRequest request) {
             if(request.url.startsWith("file://") || request.url.startsWith("https://storage.googleapis.com")) {
               return NavigationDecision.navigate;
-            } else {
+            } else if(request.url.startsWith('http')) {
               _launchURL(request.url);
               return NavigationDecision.prevent;
+            } else {
+              return NavigationDecision.navigate;
             }
           },
         )
@@ -39,6 +41,7 @@ class _HtmlComponentViewState extends State<HtmlComponentView> {
   }
 
   _launchURL(String url) async {
+    debugPrintStack();//todo delete
     if (await canLaunchUrl(Uri.parse(url))) {
       await launchUrl(Uri.parse(url));
     } else {
