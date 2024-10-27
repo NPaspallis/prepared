@@ -394,12 +394,13 @@ class _BadgeComponentViewState extends State<BadgeComponentView> {
 
     // 2. get access token
     http.Response accessTokenResponse = await getAccessToken(_username, _password);
-    debugPrint('response: $accessTokenResponse, ${accessTokenResponse.body}');
+    debugPrint('response: $accessTokenResponse, ${accessTokenResponse.body}');//todo
     var responseData = jsonDecode(accessTokenResponse.body);
-    if(!responseData.containsKey('access_token')) {
+    debugPrint('_username: $_username, _password: $_password');//todo delete
+    debugPrint('accessTokenResponse: ${accessTokenResponse.reasonPhrase}');//todo delete
+    if(accessTokenResponse.statusCode != 200) {
       setState(() {
-        _errorDescription = responseData['error_description'];
-        debugPrint('errorDescription: $_errorDescription');
+        _errorDescription = 'status code ${accessTokenResponse.statusCode}';
         _claimStatus = ClaimStatus.error;
       });
       return; // end function
@@ -412,10 +413,10 @@ class _BadgeComponentViewState extends State<BadgeComponentView> {
     http.Response issueBadgeResponse = await issueBadge(accessToken, widget.component.badgeName, widget.component.issuerId, widget.component.badgeClassId, _name, _email);
     debugPrint('issueBadgeResponse: ${issueBadgeResponse.body}');
     var issueBadgeResponseData = jsonDecode(issueBadgeResponse.body);
-    if(!issueBadgeResponseData['status']['success']) {
+    debugPrint('issueBadgeResponse.statusCode: ${issueBadgeResponse.statusCode}');
+    if(issueBadgeResponse.statusCode < 200 || issueBadgeResponse.statusCode >= 300) { // OK range is 2xx
       setState(() {
-        _errorDescription = responseData['description'];
-        debugPrint('errorDescription: $_errorDescription');
+        _errorDescription = 'status code ${issueBadgeResponse.statusCode} - ${issueBadgeResponseData['error']}';
         _claimStatus = ClaimStatus.error;
       });
       return; // end function
@@ -464,7 +465,7 @@ class _BadgeComponentViewState extends State<BadgeComponentView> {
         ]
       }
     });
-    debugPrint('body: $body');
+    debugPrint('body: $body');//todo delete
 
     return http.post(
         Uri.parse(badgeIssueUrl),
