@@ -73,9 +73,32 @@ class _ViewStoryScreenState extends State<ViewStoryScreen> {
     return '${PreferenceUtils.keyCurrentIndex}-$storyId';
   }
 
+  static const ticksPerSecond = 10;
+  static const secondsToShowTooltip = 3;
+  static const maxTooltipCountdown = secondsToShowTooltip * ticksPerSecond;
+  late Timer timer;
+  int tooltipCountdown = 0;
+  String tooltip = '';
+
+  void showTooltip(final String tooltip) {
+    setState(()  {
+      this.tooltip = tooltip;
+      tooltipCountdown = maxTooltipCountdown;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
+
+    timer = Timer.periodic(Duration(milliseconds: (1000 / ticksPerSecond).round()), (timer) {
+      setState(() {
+        tooltipCountdown--;
+        if(tooltipCountdown < 0) {
+          tooltipCountdown = 0;
+        }
+      });
+    });
 
     //Load the components:
     for(StoryComponent storyComponent in widget.story.components) {
@@ -158,6 +181,7 @@ class _ViewStoryScreenState extends State<ViewStoryScreen> {
     return Scaffold(
         appBar: AppBar(title: Text(widget.story.shortTitle)),
         body: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Expanded(
               child: _components.isEmpty ?
@@ -186,12 +210,26 @@ class _ViewStoryScreenState extends State<ViewStoryScreen> {
             ),
 
             _getBottomNavigationView(),
+
+            // show tooltip
+            tooltipCountdown > 0 ?
+                Stack(
+                  children: [
+                    LinearProgressIndicator(
+                      value: tooltipCountdown / maxTooltipCountdown,
+                      color: Colors.black12,
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      child: Text(tooltip, style: Theme.of(context).textTheme.bodySmall),
+                    ),
+                  ],
+                )
+                : Container()
           ]
         ),
     );
   }
-
-  final GlobalKey _toolTipKey = GlobalKey();
 
   ///Constructs the bottom navigation view based on the component being viewed.
   Widget _getBottomNavigationView() {
@@ -292,8 +330,8 @@ class _ViewStoryScreenState extends State<ViewStoryScreen> {
                         bool lastComponent = _currentIndex >= _components.length - 1;
                         String tooltip = _getTooltipByComponentType(currentStoryComponent.getType());
                         return lastComponent ?
-                        _getOutlinedButtonWithTooltip(componentCompleted, _finish, 'Finish', Icons.check, tooltip) :
-                        _getOutlinedButtonWithTooltip(componentCompleted, _next, null, Icons.skip_next, tooltip);
+                        _getOutlinedButtonWithTooltip(componentCompleted, _finish, 'Finish', Icons.check, tooltip, showTooltip) :
+                        _getOutlinedButtonWithTooltip(componentCompleted, _next, null, Icons.skip_next, tooltip, showTooltip);
                       }
                   )
                 ],
@@ -313,7 +351,7 @@ class _ViewStoryScreenState extends State<ViewStoryScreen> {
       case ComponentType.multipoll: return 'The button will be enabled after you provide an answer.';
       case ComponentType.discussion: return 'The button will be enabled after you view the discussion messages';
       case ComponentType.bucket: return 'The button will be enabled after you have completed the exercise';
-      case ComponentType.exam: return 'Please pass the test before proceeding';
+      case ComponentType.exam: return 'Please pass the exam before proceeding';
       case ComponentType.badge:
       case ComponentType.chat:
       case ComponentType.html:
@@ -321,22 +359,23 @@ class _ViewStoryScreenState extends State<ViewStoryScreen> {
     }
   }
 
-  Widget _getOutlinedButtonWithTooltip(bool active, VoidCallback action, String? label, IconData? iconData, String tooltipMessage) {
+  Widget _getOutlinedButtonWithTooltip(bool active, VoidCallback action, String? label, IconData? iconData, String tooltipMessage, Function(String) showTooltip) {
     final List<Widget> rowChildren = [];
     if(label != null) rowChildren.add(Text(label));
     if(iconData != null) rowChildren.add(Icon(iconData));
 
-    SnackBar snackBarTooltip = SnackBar(
-      behavior: SnackBarBehavior.floating,
-        margin: const EdgeInsets.only(bottom: 80.0),
-        content: Text(tooltipMessage),
-        dismissDirection: DismissDirection.none,
-        backgroundColor: const Color(0x60000000),
-    );
+    // SnackBar snackBarTooltip = SnackBar(
+    //   behavior: SnackBarBehavior.floating,
+    //     margin: const EdgeInsets.only(bottom: 80.0),
+    //     content: Text(tooltipMessage),
+    //     dismissDirection: DismissDirection.none,
+    //     backgroundColor: const Color(0x60000000),
+    // );
 
     return GestureDetector(
         onTap: () {
-          ScaffoldMessenger.of(context).showSnackBar(snackBarTooltip);
+          // ScaffoldMessenger.of(context).showSnackBar(snackBarTooltip);
+          showTooltip(tooltipMessage);
         },
         child: OutlinedButton(
             onPressed: active ? action : null,
@@ -366,6 +405,8 @@ class _ViewStoryScreenState extends State<ViewStoryScreen> {
         _currentIndex,
       );
     }
+
+    setState(() => tooltipCountdown = 0);
   }
 
   void _next() {

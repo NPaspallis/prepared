@@ -3,7 +3,7 @@ description: The PREPARED mobile app.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.8.4+24
+version: 1.8.5+25
 
 environment:
   sdk: '>=2.18.0-271.7.beta <3.0.0'
