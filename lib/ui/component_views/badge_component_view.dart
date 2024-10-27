@@ -93,7 +93,7 @@ class _BadgeComponentViewState extends State<BadgeComponentView> {
 
     if (documentSnapshot.exists) {
       var badgeEntryData = documentSnapshot.data()!;
-      debugPrint('documentSnapshot: $badgeEntryData');
+      // debugPrint('documentSnapshot: $badgeEntryData');
       setState(() {
         _name = badgeEntryData['name'];
         _email = badgeEntryData['email'];
@@ -119,7 +119,7 @@ class _BadgeComponentViewState extends State<BadgeComponentView> {
     final String badgeEntryID = PreferenceUtils.constructBadgeClassDeviceID(widget.component.badgeClassId, deviceID);
     FirebaseFirestore.instance.collection(firebaseCollectionBadges).doc(badgeEntryID).set(badgeEntry.toJson())
         .then((value) {
-          debugPrint('Entry created on Firebase: $badgeEntry');
+          // debugPrint('Entry created on Firebase: $badgeEntry');
           setState(() {
             _claimStatus = ClaimStatus.issued;
 
@@ -384,7 +384,7 @@ class _BadgeComponentViewState extends State<BadgeComponentView> {
   bool _emailOK = false;
 
   void _claimBadge() async {
-    debugPrint('name: $_name, email: $_email, date: $_date');
+    // debugPrint('name: $_name, email: $_email, date: $_date');
     _date = DateTime.now().toIso8601String().substring(0, 10);
 
     setState(() => _claimStatus = ClaimStatus.claiming);
@@ -394,10 +394,7 @@ class _BadgeComponentViewState extends State<BadgeComponentView> {
 
     // 2. get access token
     http.Response accessTokenResponse = await getAccessToken(_username, _password);
-    debugPrint('response: $accessTokenResponse, ${accessTokenResponse.body}');//todo
     var responseData = jsonDecode(accessTokenResponse.body);
-    debugPrint('_username: $_username, _password: $_password');//todo delete
-    debugPrint('accessTokenResponse: ${accessTokenResponse.reasonPhrase}');//todo delete
     if(accessTokenResponse.statusCode != 200) {
       setState(() {
         _errorDescription = 'status code ${accessTokenResponse.statusCode}';
@@ -407,13 +404,13 @@ class _BadgeComponentViewState extends State<BadgeComponentView> {
     }
 
     String accessToken = responseData['access_token'];
-    debugPrint('accessToken: $accessToken');
+    // debugPrint('accessToken: $accessToken');
 
     // 3. proceed to issue the badge
     http.Response issueBadgeResponse = await issueBadge(accessToken, widget.component.badgeName, widget.component.issuerId, widget.component.badgeClassId, _name, _email);
-    debugPrint('issueBadgeResponse: ${issueBadgeResponse.body}');
+    // debugPrint('issueBadgeResponse: ${issueBadgeResponse.body}');
     var issueBadgeResponseData = jsonDecode(issueBadgeResponse.body);
-    debugPrint('issueBadgeResponse.statusCode: ${issueBadgeResponse.statusCode}');
+    // debugPrint('issueBadgeResponse.statusCode: ${issueBadgeResponse.statusCode}');
     if(issueBadgeResponse.statusCode < 200 || issueBadgeResponse.statusCode >= 300) { // OK range is 2xx
       setState(() {
         _errorDescription = 'status code ${issueBadgeResponse.statusCode} - ${issueBadgeResponseData['error']}';
@@ -423,7 +420,7 @@ class _BadgeComponentViewState extends State<BadgeComponentView> {
     }
 
     _openBadgeId = issueBadgeResponseData['result'][0]['openBadgeId'];
-    debugPrint('openBadgeId: $_openBadgeId');
+    // debugPrint('openBadgeId: $_openBadgeId');
 
     createBadgeEntry(_openBadgeId, _name, _email, _date);
   }
@@ -465,7 +462,7 @@ class _BadgeComponentViewState extends State<BadgeComponentView> {
         ]
       }
     });
-    debugPrint('body: $body');//todo delete
+
 
     return http.post(
         Uri.parse(badgeIssueUrl),
