@@ -127,27 +127,25 @@ class _MultipollComponentViewState extends State<MultipollComponentView> with Ti
         numOfCheckedCheckboxes--;
       }
       else { //Check
-        if (widget.component.maxSelections != null) {
-          if (numOfCheckedCheckboxes < widget.component.maxSelections!) {
-            numOfCheckedCheckboxes++;
-            selectedPollValueIndices.add(option.id);
-          }
-          else {
-            UIUtils.showErrorToast("You can only select up to ${widget.component.maxSelections} options.");
-          }
+        if (widget.component.maxSelections != null && numOfCheckedCheckboxes >= widget.component.maxSelections!) {
+          UIUtils.showErrorToast("You can only select up to ${widget.component.maxSelections} options.");
         }
-        else {
+        else
+        {
           numOfCheckedCheckboxes++;
           selectedPollValueIndices.add(option.id);
         }
       }
 
-      debugPrint("maxSelections: ${widget.component.maxSelections}");
-      debugPrint("numOfCheckedCheckboxes: $numOfCheckedCheckboxes");
+      // debugPrint("maxSelections: ${widget.component.maxSelections}");
+      // debugPrint("numOfCheckedCheckboxes: $numOfCheckedCheckboxes");
 
       //Check if at least one option is selected and enable/disable submission:
       if (selectedPollValueIndices.isNotEmpty) {
         _submitVisible = true;
+      }
+
+      if(selectedPollValueIndices.length == 1) {
         UIUtils.showNeutralToast("When ready, scroll down to submit your answer.");
       }
     });
@@ -337,7 +335,12 @@ class _MultipollComponentViewState extends State<MultipollComponentView> with Ti
                                   _checkboxesEnabled = false;
                                   _showResults = true;
                                   // widget.finished = true;
-                                  Provider.of<StoryProgress>(context, listen: false).setCompleted(widget.storyID, widget.component.getID(), true);
+                                  if(context.mounted) {
+                                    Provider.of<StoryProgress>(
+                                        context, listen: false).setCompleted(
+                                        widget.storyID,
+                                        widget.component.getID(), true);
+                                  }
                                   _scrollDown();
                                 },);
                               });

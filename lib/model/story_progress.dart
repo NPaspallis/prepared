@@ -7,7 +7,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 class StoryProgress with ChangeNotifier {
 
   Map<String,Map<String,bool>> _storyToComponentToCompletedMap = {};
-  // final Map<String, StackN<int>> _storyToComponentBackstack = {};
 
   @override
   String toString() {
@@ -105,51 +104,4 @@ class StoryProgress with ChangeNotifier {
       return {};
     }
   }
-
-  ///Adds a component to a story's backstack.
-  // void pushComponentToBackstack(String storyID, int componentIndex) {
-  //   if (_storyToComponentBackstack[storyID] == null) {
-  //     _storyToComponentBackstack[storyID] = StackN();
-  //   }
-  //   _storyToComponentBackstack[storyID]?.push(componentIndex);
-  // }
-
-  ///Removes a component from a story's backstack and returns its index.
-  // int? popComponentFromBackstack(String storyID) {
-  //   if (_storyToComponentBackstack[storyID] == null) {
-  //     return null;
-  //   }
-  //
-  //   if (_storyToComponentBackstack[storyID]!.isEmpty()) {
-  //     return null;
-  //   }
-  //
-  //   return _storyToComponentBackstack[storyID]!.pop();
-  // }
-
-  ///Peeks on the backstack without changing its contents.
-  // int? peekBackstack(String storyID) {
-  //   if (_storyToComponentBackstack[storyID] == null) {
-  //     return null;
-  //   }
-  //
-  //   if (_storyToComponentBackstack[storyID]!.isEmpty()) {
-  //     return null;
-  //   }
-  //
-  //   return _storyToComponentBackstack[storyID]!.peek();
-  // }
-
-
-
-  //Retrieves the backstack for a story.
-  // StackN<int>? getBackstack(String storyID) {
-  //   if (_storyToComponentBackstack[storyID] == null) {
-  //     _storyToComponentBackstack[storyID] = StackN();
-  //   }
-  //   return _storyToComponentBackstack[storyID];
-  // }
-
-
-
 }

@@ -1,6 +1,13 @@
 import 'dart:convert';
 
 import 'package:app/model/badge_entry.dart';
+import 'package:app/model/story_progress.dart';
+import 'package:app/schema/component/badge_component.dart';
+import 'package:app/secrets.dart';
+import 'package:app/util/device_utils.dart';
+import 'package:app/util/pref_utils.dart';
+import 'package:app/util/ui_utils.dart';
+import 'package:app/ui/widgets/buttons.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -8,14 +15,6 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../../model/story_progress.dart';
-import '../../schema/component/badge_component.dart';
-import '../../secrets.dart';
-import '../../util/device_utils.dart';
-import '../../util/pref_utils.dart';
-import '../../util/ui_utils.dart';
-import '../widgets/buttons.dart';
 
 /// A component that allows the user to enter their details to be awarded a
 /// badge.
@@ -101,7 +100,7 @@ class _BadgeComponentViewState extends State<BadgeComponentView> {
         _openBadgeId = badgeEntryData['badgeId'];
         _claimStatus = ClaimStatus.issued;
 
-        // completed - once badge is created
+        // completed - once badge is verified (exists)
         Provider.of<StoryProgress>(context, listen: false).setCompleted(widget.storyId, widget.component.getID(), true);
       });
     }
@@ -396,6 +395,7 @@ class _BadgeComponentViewState extends State<BadgeComponentView> {
     http.Response accessTokenResponse = await getAccessToken(_username, _password);
     var responseData = jsonDecode(accessTokenResponse.body);
     if(accessTokenResponse.statusCode != 200) {
+      // debugPrint('GET ACCESS TOKEN: responseData: $responseData');
       setState(() {
         _errorDescription = 'status code ${accessTokenResponse.statusCode}';
         _claimStatus = ClaimStatus.error;
@@ -408,9 +408,8 @@ class _BadgeComponentViewState extends State<BadgeComponentView> {
 
     // 3. proceed to issue the badge
     http.Response issueBadgeResponse = await issueBadge(accessToken, widget.component.badgeName, widget.component.issuerId, widget.component.badgeClassId, _name, _email);
-    // debugPrint('issueBadgeResponse: ${issueBadgeResponse.body}');
     var issueBadgeResponseData = jsonDecode(issueBadgeResponse.body);
-    // debugPrint('issueBadgeResponse.statusCode: ${issueBadgeResponse.statusCode}');
+    // debugPrint('ISSUE BADGE: issueBadgeResponseData: $issueBadgeResponseData');
     if(issueBadgeResponse.statusCode < 200 || issueBadgeResponse.statusCode >= 300) { // OK range is 2xx
       setState(() {
         _errorDescription = 'status code ${issueBadgeResponse.statusCode} - ${issueBadgeResponseData['error']}';

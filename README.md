@@ -5,5 +5,6 @@
 
 A framework for developing mobile educational apps with reusable and extensible component types
 
-* For app developers' guidelines, see [docs/developers.md](docs/developers.md).
-* For instructional designers' guidelines, see [docs/guidelines.md](docs/guidelines.md)
+This software is Open Source as per the [MIT License](LICENSE).
+
+For usage info, see the [docs](docs/README.md).

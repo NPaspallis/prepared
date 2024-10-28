@@ -3,44 +3,43 @@ import 'dart:math';
 
 import 'package:app/model/story_backstack.dart';
 import 'package:app/model/story_progress.dart';
+import 'package:app/model/abstract_stack.dart';
 import 'package:app/schema/component/audio_component.dart';
 import 'package:app/schema/component/badge_component.dart';
 import 'package:app/schema/component/branch_component.dart';
 import 'package:app/schema/component/bucket_component.dart';
 import 'package:app/schema/component/component.dart';
+import 'package:app/schema/component/component_choice.dart';
+import 'package:app/schema/component/component_type.dart';
+import 'package:app/schema/component/discussion_component.dart';
+import 'package:app/schema/component/exam_component.dart';
 import 'package:app/schema/component/html_component.dart';
 import 'package:app/schema/component/mcq_component.dart';
 import 'package:app/schema/component/multimcq_component.dart';
 import 'package:app/schema/component/multipoll_component.dart';
-import 'package:app/schema/component/exam_component.dart';
+import 'package:app/schema/component/poll_component.dart';
 import 'package:app/schema/component/video_component.dart';
+import 'package:app/schema/story.dart';
 import 'package:app/ui/component_views/audio_component_view.dart';
 import 'package:app/ui/component_views/badge_component_view.dart';
+import 'package:app/ui/component_views/branch_component_view.dart';
+import 'package:app/ui/component_views/bucket_component_view.dart';
+import 'package:app/ui/component_views/discussion_component_view.dart';
+import 'package:app/ui/component_views/exam_component_view.dart';
 import 'package:app/ui/component_views/html_component_view.dart';
+import 'package:app/ui/component_views/mcq_component_view.dart';
+import 'package:app/ui/component_views/multimcq_component_view.dart';
+import 'package:app/ui/component_views/multipoll_component_view.dart';
 import 'package:app/ui/component_views/poll_component_view.dart';
 import 'package:app/ui/component_views/video_component_view.dart';
 import 'package:app/ui/styles/style.dart';
 import 'package:app/ui/widgets/update_app_widget.dart';
 import 'package:app/util/ui_utils.dart';
+import 'package:app/util/pref_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
-
-import '../../model/abstract_stack.dart';
-import '../../schema/component/component_choice.dart';
-import '../../schema/component/component_type.dart';
-import '../../schema/component/discussion_component.dart';
-import '../../schema/component/poll_component.dart';
-import '../../schema/story.dart';
-import '../../util/pref_utils.dart';
-import '../component_views/branch_component_view.dart';
-import '../component_views/bucket_component_view.dart';
-import '../component_views/discussion_component_view.dart';
-import '../component_views/mcq_component_view.dart';
-import '../component_views/multimcq_component_view.dart';
-import '../component_views/multipoll_component_view.dart';
-import '../component_views/exam_component_view.dart';
 
 ///A screen that allows the user to view the components of a story and interact with
 ///UI elements to progress through the story.
@@ -73,32 +72,13 @@ class _ViewStoryScreenState extends State<ViewStoryScreen> {
     return '${PreferenceUtils.keyCurrentIndex}-$storyId';
   }
 
-  static const ticksPerSecond = 10;
-  static const secondsToShowTooltip = 3;
-  static const maxTooltipCountdown = secondsToShowTooltip * ticksPerSecond;
-  late Timer timer;
-  int tooltipCountdown = 0;
-  String tooltip = '';
-
   void showTooltip(final String tooltip) {
-    setState(()  {
-      this.tooltip = tooltip;
-      tooltipCountdown = maxTooltipCountdown;
-    });
+    UIUtils.showNeutralToast(tooltip);
   }
 
   @override
   void initState() {
     super.initState();
-
-    timer = Timer.periodic(Duration(milliseconds: (1000 / ticksPerSecond).round()), (timer) {
-      setState(() {
-        tooltipCountdown--;
-        if(tooltipCountdown < 0) {
-          tooltipCountdown = 0;
-        }
-      });
-    });
 
     //Load the components:
     for(StoryComponent storyComponent in widget.story.components) {
@@ -133,7 +113,7 @@ class _ViewStoryScreenState extends State<ViewStoryScreen> {
       child: UIUtils.noInternetOverlay(() {
         InternetConnection().hasInternetAccess.then((value) {
           hasInternet = value;
-          if (hasInternet) {
+          if (hasInternet && mounted) {
             Navigator.pop(context);
           }
         },);
@@ -166,13 +146,12 @@ class _ViewStoryScreenState extends State<ViewStoryScreen> {
   }
 
   @override
-  void dispose() {
-    // save current index and max completed index:
-    SharedPreferences.getInstance().then((prefs) {
-      prefs.setInt(_getKeyMaxCompletedIndex(widget.story.id), _maxCompletedIndex);
-      StoryBackstack.saveToPrefs(widget.story.id, _backstack); //TODO Creates an error??
-    });
+  void dispose() async {
     internetListener.cancel();
+    // save current index and max completed index:
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setInt(_getKeyMaxCompletedIndex(widget.story.id), _maxCompletedIndex);
+    StoryBackstack.saveToPrefs(widget.story.id, _backstack);
     super.dispose();
   }
 
@@ -210,22 +189,6 @@ class _ViewStoryScreenState extends State<ViewStoryScreen> {
             ),
 
             _getBottomNavigationView(),
-
-            // show tooltip
-            tooltipCountdown > 0 ?
-                Stack(
-                  children: [
-                    LinearProgressIndicator(
-                      value: tooltipCountdown / maxTooltipCountdown,
-                      color: Colors.black12,
-                    ),
-                    Container(
-                      padding: const EdgeInsets.all(12),
-                      child: Text(tooltip, style: Theme.of(context).textTheme.bodySmall),
-                    ),
-                  ],
-                )
-                : Container()
           ]
         ),
     );
@@ -344,18 +307,18 @@ class _ViewStoryScreenState extends State<ViewStoryScreen> {
 
   String _getTooltipByComponentType(ComponentType componentType) {
     switch(componentType) {
-      case ComponentType.video: return 'The button will be enabled after you watch the video';
-      case ComponentType.audio: return 'The button will be enabled after you listen to the audio';
-      case ComponentType.poll: return 'The button will be enabled after you cast your vote';
-      case ComponentType.mcq: return 'The button will be enabled after you provide an answer.';
-      case ComponentType.multipoll: return 'The button will be enabled after you provide an answer.';
-      case ComponentType.discussion: return 'The button will be enabled after you view the discussion messages';
-      case ComponentType.bucket: return 'The button will be enabled after you have completed the exercise';
-      case ComponentType.exam: return 'Please pass the exam before proceeding';
-      case ComponentType.badge:
+      case ComponentType.video: return 'The button will be enabled after you watch the video.';
+      case ComponentType.audio: return 'The button will be enabled after you listen to the audio.';
+      case ComponentType.poll: return 'The button will be enabled after you submit your vote.';
+      case ComponentType.mcq: return 'The button will be enabled after you submit an answer.';
+      case ComponentType.multipoll: return 'The button will be enabled after you submit an answer.';
+      case ComponentType.discussion: return 'The button will be enabled after you view the discussion messages.';
+      case ComponentType.bucket: return 'The button will be enabled after you have completed the exercise.';
+      case ComponentType.exam: return 'The button will be enabled after you pass the exam.';
+      case ComponentType.badge: return 'The button will be enabled after you issue the badge.';
       case ComponentType.chat:
       case ComponentType.html:
-      default: return 'The button will be enabled after you view the page';
+      default: return 'The button will be enabled after you view the page.';
     }
   }
 
@@ -364,17 +327,8 @@ class _ViewStoryScreenState extends State<ViewStoryScreen> {
     if(label != null) rowChildren.add(Text(label));
     if(iconData != null) rowChildren.add(Icon(iconData));
 
-    // SnackBar snackBarTooltip = SnackBar(
-    //   behavior: SnackBarBehavior.floating,
-    //     margin: const EdgeInsets.only(bottom: 80.0),
-    //     content: Text(tooltipMessage),
-    //     dismissDirection: DismissDirection.none,
-    //     backgroundColor: const Color(0x60000000),
-    // );
-
     return GestureDetector(
         onTap: () {
-          // ScaffoldMessenger.of(context).showSnackBar(snackBarTooltip);
           showTooltip(tooltipMessage);
         },
         child: OutlinedButton(
@@ -405,8 +359,6 @@ class _ViewStoryScreenState extends State<ViewStoryScreen> {
         _currentIndex,
       );
     }
-
-    setState(() => tooltipCountdown = 0);
   }
 
   void _next() {
@@ -488,7 +440,7 @@ class _ViewStoryScreenState extends State<ViewStoryScreen> {
         return ExamComponentView(widget.story.id, testComponent);
 
       default:
-        return UpdateAppWidget(message: "Unknown component.");
+        return const UpdateAppWidget(message: "Unknown component.");
     }
   }
 }

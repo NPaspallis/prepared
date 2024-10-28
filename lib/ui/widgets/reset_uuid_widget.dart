@@ -1,10 +1,9 @@
 import 'package:app/util/device_utils.dart';
-import 'package:app/util/ui_utils.dart';
+import 'package:app/util/pref_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../util/pref_utils.dart';
-import '../styles/style.dart';
+import 'package:app/ui/styles/style.dart';
 
 ///A widget that allows the user to view and enter their nickname.
 class ResetUuidWidget extends StatefulWidget {
@@ -100,8 +99,15 @@ class _ResetUuidWidgetState extends State<ResetUuidWidget> {
   _resetUuid() {
     PreferenceUtils.resetAllStories().then((_) {
       DeviceUtils.resetInstallationID();
-      Navigator.of(context).pop();
-      UIUtils.showSuccessToast('UUID successfully reset'); //TODO - Internationalize
+      if (mounted) {
+        Fluttertoast.showToast(
+          msg: 'UUID successfully reset',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 3,
+        );
+        Navigator.of(context).pop();
+      }
     },);
   }
 }

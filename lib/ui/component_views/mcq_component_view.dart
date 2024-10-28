@@ -1,13 +1,10 @@
 import 'package:app/model/poll_entry.dart';
 import 'package:app/schema/component/mcq_component.dart';
-import 'package:app/schema/component/poll_component.dart';
 import 'package:app/schema/mcq_option.dart';
-import 'package:app/schema/poll_option.dart';
 import 'package:app/ui/styles/style.dart';
 import 'package:app/util/file_utils.dart';
 import 'package:app/util/pref_utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
@@ -15,7 +12,6 @@ import 'package:provider/provider.dart';
 import '../../model/story_progress.dart';
 import '../../util/device_utils.dart';
 import '../../util/ui_utils.dart';
-import '../widgets/poll_results_widget.dart';
 
 ///A component that allows the user to answer MCQ questions.
 class MCQComponentView extends StatefulWidget {
@@ -191,7 +187,7 @@ class _MCQComponentViewState extends State<MCQComponentView> with TickerProvider
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(10, 35, 10, 10),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
 
                     const Center(child: Text("Multiple choice question", style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold))),
@@ -247,7 +243,7 @@ class _MCQComponentViewState extends State<MCQComponentView> with TickerProvider
                         )
                     ),
 
-                    //Generic feeback:
+                    //Generic feedback:
 
                     widget.component.feedback.isNotEmpty ?
                     Card(
@@ -294,7 +290,12 @@ class _MCQComponentViewState extends State<MCQComponentView> with TickerProvider
                                     _radioButtonsEnabled = false;
                                     _showResults = true;
                                     // widget.finished = true;
-                                    Provider.of<StoryProgress>(context, listen: false).setCompleted(widget.storyID, widget.component.getID(), true);
+                                    if(context.mounted) {
+                                      Provider.of<StoryProgress>(
+                                          context, listen: false).setCompleted(
+                                          widget.storyID,
+                                          widget.component.getID(), true);
+                                    }
                                   }
                                   _scrollDown();
                                 },);

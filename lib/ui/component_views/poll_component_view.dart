@@ -320,7 +320,12 @@ class _PollComponentViewState extends State<PollComponentView> with TickerProvid
                                     _radioButtonsEnabled = false;
                                     _showResults = true;
                                     // widget.finished = true;
-                                    Provider.of<StoryProgress>(context, listen: false).setCompleted(widget.storyID, widget.component.getID(), true);
+                                    if(context.mounted) {
+                                      Provider.of<StoryProgress>(
+                                          context, listen: false).setCompleted(
+                                          widget.storyID,
+                                          widget.component.getID(), true);
+                                    }
                                   }
                                   _scrollDown();
                                 },);

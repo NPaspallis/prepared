@@ -1,9 +1,6 @@
 import 'package:app/schema/component/multimcq_component.dart';
-import 'package:app/schema/component/multipoll_component.dart';
 import 'package:app/schema/mcq_option.dart';
-import 'package:app/schema/poll_option.dart';
 import 'package:app/ui/styles/style.dart';
-import 'package:app/ui/widgets/multipoll_results_widget.dart';
 import 'package:app/util/file_utils.dart';
 import 'package:app/util/pref_utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -299,7 +296,12 @@ class _MultiMCQComponentViewState extends State<MultiMCQComponentView> with Tick
                                   _checkboxesEnabled = false;
                                   _showResults = true;
                                   // widget.finished = true;
-                                  Provider.of<StoryProgress>(context, listen: false).setCompleted(widget.storyID, widget.component.getID(), true);
+                                  if(context.mounted) {
+                                    Provider.of<StoryProgress>(
+                                        context, listen: false).setCompleted(
+                                        widget.storyID,
+                                        widget.component.getID(), true);
+                                  }
                                   _scrollDown();
                                 },);
                               });

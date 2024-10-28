@@ -14,7 +14,7 @@ class UIUtils {
       backgroundColor: Colors.redAccent,
       textColor: Colors.white,
       toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
+      gravity: ToastGravity.CENTER,
       timeInSecForIosWeb: 3,
     );
   }
@@ -26,7 +26,7 @@ class UIUtils {
       backgroundColor: Colors.green,
       textColor: Colors.white,
       toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
+      gravity: ToastGravity.CENTER,
       timeInSecForIosWeb: 3,
     );
   }
@@ -38,7 +38,7 @@ class UIUtils {
       backgroundColor: Colors.grey.shade700,
       textColor: Colors.white,
       toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
+      gravity: ToastGravity.CENTER,
       timeInSecForIosWeb: 3,
     );
   }
@@ -52,14 +52,14 @@ class UIUtils {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Icon(Icons.signal_wifi_connected_no_internet_4, color: Colors.red, size: 50,),
-              Gap(20),
-              Text("No internet", style: TextStyle(fontSize: 26),),
-              Gap(20),
-              Text("Please make sure you have an internet connection.", textAlign: TextAlign.center),
-              Gap(20),
+              const Icon(Icons.signal_wifi_connected_no_internet_4, color: Colors.red, size: 50,),
+              const Gap(20),
+              const Text("No internet", style: TextStyle(fontSize: 26),),
+              const Gap(20),
+              const Text("Please make sure you have an internet connection.", textAlign: TextAlign.center),
+              const Gap(20),
               ElevatedButton(
-                child: Text("Retry"),
+                child: const Text("Retry"),
                 onPressed: () {
                   onRetryCallback();
                 },
@@ -78,5 +78,4 @@ class UIUtils {
       throw 'Could not launch $url';
     }
   }
-
 }

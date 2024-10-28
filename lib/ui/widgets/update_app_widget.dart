@@ -10,7 +10,7 @@ class UpdateAppWidget extends StatelessWidget {
 
   final String message;
 
-  UpdateAppWidget({super.key, this.message = "The app is out of date."});
+  const UpdateAppWidget({super.key, this.message = "The app is out of date."});
 
   @override
   Widget build(BuildContext context) {

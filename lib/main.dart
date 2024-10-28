@@ -13,8 +13,8 @@ main() async {
   await Secrets.loadFromAssets(); // load secrets from assets folder
   runApp(
     ChangeNotifierProvider(
-      create: (context) => StoryProgress(),
-      child: const PreparedApp()
+        create: (context) => StoryProgress(),
+        child: const PreparedApp()
     )
   );
 }
