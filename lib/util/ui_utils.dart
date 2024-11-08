@@ -32,13 +32,13 @@ class UIUtils {
   }
 
   ///Shows a neutral message toast.
-  static void showNeutralToast(String message) {
+  static void showNeutralToast(String message, {ToastGravity gravity = ToastGravity.CENTER}) {
     Fluttertoast.showToast(
       msg: message,
       backgroundColor: Colors.grey.shade700,
       textColor: Colors.white,
       toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.CENTER,
+      gravity: gravity,
       timeInSecForIosWeb: 3,
     );
   }

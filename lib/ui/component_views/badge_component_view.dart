@@ -10,8 +10,13 @@ import 'package:app/util/ui_utils.dart';
 import 'package:app/ui/widgets/buttons.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -29,6 +34,7 @@ class BadgeComponentView extends StatefulWidget {
   State<BadgeComponentView> createState() => _BadgeComponentViewState();
 }
 
+const linkedInOrganizationId = '88654255'; // PREPARED project's organization id on LinkedIn
 const firebaseCollectionBadges = 'BadgeEntry';
 
 enum ClaimStatus { unclaimed, claiming, error, issued }
@@ -297,7 +303,8 @@ class _BadgeComponentViewState extends State<BadgeComponentView> {
               border: const TableBorder(horizontalInside: BorderSide(width: 1, style: BorderStyle.solid)),
               columnWidths: const <int, TableColumnWidth>{
                 0: IntrinsicColumnWidth(),
-                1: FlexColumnWidth()
+                1: FlexColumnWidth(),
+                2: IntrinsicColumnWidth(),
               },
               defaultVerticalAlignment: TableCellVerticalAlignment.middle,
               children: <TableRow>[
@@ -308,7 +315,8 @@ class _BadgeComponentViewState extends State<BadgeComponentView> {
                       padding: const EdgeInsets.all(10),
                       child: const Text('Name', style: TextStyle(fontWeight: FontWeight.bold)),
                     ),
-                    Text(_name)
+                    Text(_name, overflow: TextOverflow.ellipsis),
+                    const SizedBox(width: 10)
                   ],
                 ),
                 TableRow(
@@ -318,7 +326,8 @@ class _BadgeComponentViewState extends State<BadgeComponentView> {
                       padding: const EdgeInsets.all(10),
                       child: const Text('Email', style: TextStyle(fontWeight: FontWeight.bold)),
                     ),
-                    Text(_email)
+                    Text(_email, overflow: TextOverflow.ellipsis),
+                    const SizedBox(width: 10)
                   ],
                 ),
                 TableRow(
@@ -328,7 +337,8 @@ class _BadgeComponentViewState extends State<BadgeComponentView> {
                       padding: const EdgeInsets.all(10),
                       child: const Text('Date', style: TextStyle(fontWeight: FontWeight.bold)),
                     ),
-                    Text(_date)
+                    Text(_date, overflow: TextOverflow.ellipsis),
+                    const SizedBox(width: 10)
                   ],
                 ),
                 TableRow(
@@ -338,7 +348,8 @@ class _BadgeComponentViewState extends State<BadgeComponentView> {
                       padding: const EdgeInsets.all(10),
                       child: const Text('Badge ID', style: TextStyle(fontWeight: FontWeight.bold)),
                     ),
-                    Text(_openBadgeId.substring(_openBadgeId.lastIndexOf("/") + 1))
+                    Text(_openBadgeId.substring(_openBadgeId.lastIndexOf("/") + 1), overflow: TextOverflow.ellipsis),
+                    const SizedBox(width: 10)
                   ],
                 ),
               ],
@@ -346,8 +357,10 @@ class _BadgeComponentViewState extends State<BadgeComponentView> {
         ),
       ),
 
-      Container(height: 20),
-      createButtonWithIcon('View Online', const Icon(Icons.open_in_new, size: 16), _openLinkToOpenBadgeId, key: const Key('button-view-badge')),
+      const SizedBox(height: 20),
+      createButtonWithIcon('View online', const Icon(FontAwesomeIcons.solidIdBadge, size: 16), _openLinkToOpenBadgeId, key: const Key('button-view-badge')),
+      const SizedBox(height: 20),
+      createButtonWithIcon('Add to LinkedIn', const Icon(FontAwesomeIcons.linkedin, size: 16), _showLinkedInDialog, key: const Key('button-add-to-linkedin')),
     ];
   }
 
@@ -357,6 +370,74 @@ class _BadgeComponentViewState extends State<BadgeComponentView> {
     if (!await launchUrl(url)) {
       throw Exception('Could not launch $url');
     }
+  }
+
+  final addToLinkedInUrl = 'https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name=%%badgeName%%&issueYear=%%issueYear%%&issueMonth=%%issueMonth%%&certUrl=%%certUrl%%&organizationId=%%organizationId%%&certId=%%certId%%';
+
+  Uri _getLinkedInUrl() {
+    if(_date.length < 10) {
+      setState(() => _date = DateFormat('yyyy-MM-dd').format(DateTime.now()));
+    }
+    String year = _date.substring(0, 4);
+    String month = _date.substring(5, 7);
+    String badgeId = _openBadgeId.substring(_openBadgeId.lastIndexOf("/") + 1); // extract id from url
+
+    // form the url
+    final String inflatedUrl = addToLinkedInUrl
+        .replaceFirst("%%badgeName%%", widget.component.badgeName)
+        .replaceFirst("%%organizationId%%", linkedInOrganizationId)
+        .replaceFirst("%%issueYear%%", year)
+        .replaceFirst("%%issueMonth%%", month)
+        .replaceFirst("%%certId%%", badgeId)
+        .replaceFirst("%%certUrl%%", Uri.encodeComponent(_openBadgeId)); // this is actually the badgr url
+    return Uri.parse(inflatedUrl);
+  }
+
+  void _copyLinkedInUrlToClipboard() async {
+    final Uri url = _getLinkedInUrl();
+    if (kDebugMode) {
+      print('Add to LinkedIn using url: $url');
+    }
+    await Clipboard.setData(ClipboardData(text: '$url'));
+    UIUtils.showNeutralToast('Url copied to clipboard', gravity: ToastGravity.BOTTOM);
+  }
+
+  void _addToLinkedIn() async {
+    final Uri url = _getLinkedInUrl();
+    if (kDebugMode) {
+      print('Add to LinkedIn using url: $url');
+    }
+    if (!await launchUrl(url)) {
+      throw Exception('Could not launch $url');
+    }
+  }
+
+  void _showLinkedInDialog() {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Row( children: [
+          Text('Add to LinkedIn'),
+          SizedBox(width: 10),
+          Icon(FontAwesomeIcons.linkedin)
+        ]),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('Adding the badge to your LinkedIn profile is a great way to highlight your achievement.', style: Theme.of(context).textTheme.bodySmall),
+            const SizedBox(height: 10),
+            Text('If the LinkedIn App is installed on your mobile device, simply click the "Add to LinkedIn" button to get a prefilled form.', style: Theme.of(context).textTheme.bodySmall),
+            const SizedBox(height: 10),
+            Text('Otherwise use the "Copy Url" to save the Url in the clipboard and then open it on your desktop\'s or laptop\'s web browser.', style: Theme.of(context).textTheme.bodySmall),
+          ],
+        ),
+        actions: [
+          createButtonWithoutIcon('Add to LinkedIn', _addToLinkedIn, key: const Key('button-dialog-add-to-linkedin')),
+          createButtonWithIcon('Copy Url', const Icon(Icons.copy, size: 16), _copyLinkedInUrlToClipboard, key: const Key('button-dialog-copy-to-clipboard')),
+        ],
+        elevation: 24,
+      )
+    );
   }
 
   List<Widget> getErrorUI() {
