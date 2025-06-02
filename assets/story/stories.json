@@ -2,6 +2,10 @@
   "schemaVersion": 1,
   "stories": [
     {
+      "file": "assets/story/ric_case.json",
+      "published": true
+    },
+    {
       "file": "assets/story/example.json",
       "published": true
     },

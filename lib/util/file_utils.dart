@@ -62,7 +62,7 @@ class FileUtils {
         if (kDebugMode) {
           print('Loading stories file locally from assets');
         }
-        storiesFileText = await FileUtils.loadTextFile(assetStoriesUrl); // load from local assets - uncomment to allow locally loaded stories, e.g., in debug mode
+        storiesFileText = await FileUtils.loadTextFile(cloudStoriesUrl); // load from local assets - uncomment to allow locally loaded stories, e.g., in debug mode
       }
       var jsonObject = jsonDecode(storiesFileText);
 
