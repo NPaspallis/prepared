@@ -18,10 +18,10 @@ suitable for deployment with the _prepared_ framework.
 ## Foundations
 
 The primary aim of this document is to inform instructional designers about the _capabilities_ of
-the framework, and to enable them to define a educational content in a way that can be easily added
+the framework, and to enable them to define educational content in a way that can be easily added
 to the app.
 
-Each educational module (aka _story_) consists of some general information (like a title, authors,
+Each educational module (aka _story_ or _case study_) consists of some general information (like a title, authors,
 and a banner image), plus a sequence of _pages_. Individual pages can be plain (i.e., containing
 text, images, or video) or interactive (i.e., containing live polls, or chats).
 
