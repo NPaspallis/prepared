@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 ///Constructs a button that has an icon.
-OutlinedButton createButtonWithIcon(final String label, final Icon icon, final VoidCallback? onPressed, {required key}) {
+OutlinedButton createButtonWithIcon(final String label, final Widget icon, final VoidCallback? onPressed, {required key}) {
   return OutlinedButton(
     key: key,
     onPressed: onPressed,

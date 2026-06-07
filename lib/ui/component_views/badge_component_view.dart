@@ -358,9 +358,9 @@ class _BadgeComponentViewState extends State<BadgeComponentView> {
       ),
 
       const SizedBox(height: 20),
-      createButtonWithIcon('View online', const Icon(FontAwesomeIcons.solidIdBadge, size: 16), _openLinkToOpenBadgeId, key: const Key('button-view-badge')),
+      createButtonWithIcon('View online', const FaIcon(FontAwesomeIcons.solidIdBadge, size: 16), _openLinkToOpenBadgeId, key: const Key('button-view-badge')),
       const SizedBox(height: 20),
-      createButtonWithIcon('Add to LinkedIn', const Icon(FontAwesomeIcons.linkedin, size: 16), _showLinkedInDialog, key: const Key('button-add-to-linkedin')),
+      createButtonWithIcon('Add to LinkedIn', const FaIcon(FontAwesomeIcons.linkedin, size: 16), _showLinkedInDialog, key: const Key('button-add-to-linkedin')),
     ];
   }
 
@@ -419,7 +419,7 @@ class _BadgeComponentViewState extends State<BadgeComponentView> {
         title: const Row( children: [
           Text('Add to LinkedIn'),
           SizedBox(width: 10),
-          Icon(FontAwesomeIcons.linkedin)
+          FaIcon(FontAwesomeIcons.linkedin)
         ]),
         content: Column(
           mainAxisSize: MainAxisSize.min,
